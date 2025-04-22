@@ -1,0 +1,1 @@
+{"run_name": "int4wo-128_bs1_in512_out256", "batch_size": 1, "input_len": 512, "output_len": 256, "prefill_latency": 0.10996627807617188, "prefill_throughput": 4655.972803274708, "median_decode_latency": 0.004562854766845703, "median_decode_throughput": 219.161040861114, "total_latency": 1.2638401985168457, "overall_throughput": 607.6717617474669}
