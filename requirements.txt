@@ -3,3 +3,4 @@ transformers==4.51.1
 sglang==0.4.5
 # vllm==0.7.2 # for official QWen2.5-VL AWQ quantized model.  uncomment if needed
 pysubs2
+bitsandbytes
