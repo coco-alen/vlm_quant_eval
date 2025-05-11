@@ -101,6 +101,26 @@ python run.py \
 --verbose  :  print the answer of VLM
 
 
+## FP4 Quantization
+
+1. change the *export_dir* and calibration data in *quantize/modelopt_fp4.py*
+2. run *quantize/modelopt_fp4.py*
+3. start server with 
+```bash
+    --model-path <export_dir>
+    --quantization modelopt_fp4 
+```
+4. comment out line 275-280 in *sglang/srt/layers/quantization/modelopt_quant.py*
+    - Explain: modelopt with nvfp4 needs *kv_cache_quant_algo* , which is null in the *hf_quantization_config.json* and trigger error.
+```python
+    if not (group_size and kv_cache_quant_algo and exclude_modules):
+        raise ValueError(
+            "NVFP4 quantization requires group size and "
+            "kv_cache_quant_algo specified in "
+            "hf_quant_config.json"
+        )
+```
+5. Disable ViT quantization (refer to Bug Fix)
 
 ## Bug Fix
 

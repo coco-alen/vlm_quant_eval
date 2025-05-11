@@ -4,7 +4,7 @@ import concurrent.futures
 from tqdm import tqdm
 
 client = OpenAI(
-    base_url="http://0.0.0.0:23333/v1"
+    base_url="http://127.0.0.1:23333/v1"
 )
 
 def call_api():
@@ -31,27 +31,27 @@ def call_api():
     )
     return response
 
-# response = call_api()
-# print(response.choices[0].message.content)
+response = call_api()
+print(response.choices[0].message.content)
 
 
 
-Total_calls = 500
-max_workers = 128
+# Total_calls = 500
+# max_workers = 128
 
-# Start the timer
-start_time = time.time()
-with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
-    future = {executor.submit(call_api): i for i in range(Total_calls)}
-    for _ in tqdm(concurrent.futures.as_completed(future), total=Total_calls):
-        pass
-        # try:
-        #     response = future[_].result()
-        #     print(response.choices[0].message.content)
-        # except Exception as e:
-        #     print(f"Error: {e}")
+# # Start the timer
+# start_time = time.time()
+# with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+#     future = {executor.submit(call_api): i for i in range(Total_calls)}
+#     for _ in tqdm(concurrent.futures.as_completed(future), total=Total_calls):
+        
+#         try:
+#             response = future[_].result()
+#             print(response.choices[0].message.content)
+#         except Exception as e:
+#             print(f"Error: {e}")
 
-end_time = time.time()
-print(f"Total time taken: {end_time - start_time:.2f} seconds")
-request_throughput = Total_calls / (end_time - start_time)
-print(f"Request throughput: {request_throughput:.2f} requests/second")
+# end_time = time.time()
+# print(f"Total time taken: {end_time - start_time:.2f} seconds")
+# request_throughput = Total_calls / (end_time - start_time)
+# print(f"Request throughput: {request_throughput:.2f} requests/second")
