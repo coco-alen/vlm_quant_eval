@@ -107,12 +107,12 @@ dataset = load_dataset("cais/mmlu" , "all")['test']
 # 设置 batch_size 和最大样本数
 batch_size = 16
 calib_size = 16 * batch_size
-export_dir = "model/Qwen3-8B"
+export_dir = "model/Qwen2.5-1.5B-Instruct"
 os.makedirs(export_dir, exist_ok=True)
 # 取一部分数据用于校准
 dataset = dataset.select(range(calib_size))
-model = AutoModelForCausalLM.from_pretrained("Qwen/Qwen3-8B", torch_dtype=torch.bfloat16).to("cuda:0")
-tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen3-8B")
+model = AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-1.5B-Instruct", torch_dtype=torch.bfloat16).to("cuda:0")
+tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-1.5B-Instruct")
 
 
 def collate_fn(batch):
@@ -135,18 +135,16 @@ def forward_loop(model):
             messages.append(
                 [{
                     "role": "user",
-                    "content": [
-                        {"type": "text", "text": text_list[idx]},
-                    ],
+                    "content": text_list[idx]
                 }]
             )
         text = [tokenizer.apply_chat_template(
                 msg,
                 tokenize=False,
                 add_generation_prompt=True,
-                enable_thinking=False # Switches between thinking and non-thinking modes. Default is True.
+                padding=True,
             ) for msg in messages]
-        model_inputs = tokenizer(text, return_tensors="pt").to("cuda:0")
+        model_inputs = tokenizer(text, return_tensors="pt", padding=True).to("cuda:0")
 
         # 前向传播
         with torch.no_grad():

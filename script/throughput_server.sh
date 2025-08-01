@@ -25,5 +25,5 @@ python -m sglang.bench_serving --backend sglang --dataset-name random \
     --port 23333 \
     --apply-chat-template \
     --warmup-requests 5 \
-    --num-prompts 200 \
-    --max-concurrency 32
+    --num-prompts 1000 \
+    --max-concurrency 128

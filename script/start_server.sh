@@ -14,10 +14,20 @@ export SGLANG_TORCH_PROFILER_DIR=/mnt/raid0/yipin/quant_eval
 #     --mem-fraction-static 0.5 \
 #     --chunked-prefill-size 4096
 
-CUDA_VISIBLE_DEVICES=7 python -m sglang.launch_server \
-    --model-path /sgl-workspace/vlm_quant_eval/model/Qwen3-8B \
-    --port 23333 \
-    --mem-fraction-static 0.4 \
-    --quantization modelopt_fp4 
+# CUDA_VISIBLE_DEVICES=7 python -m sglang.launch_server \
+#     --model-path OpenGVLab/InternVL3-1B \
+#     --chat-template internvl-2-5 \
+#     --port 23333 \
+#     --mem-fraction-static 0.7
+    # --quantization modelopt_fp4 
     # --max-running-requests 256 \
     # --chunked-prefill-size 4096
+
+
+CUDA_VISIBLE_DEVICES=7 python -m sglang.launch_server \
+    --model-path /sgl-workspace/vlm_quant_eval/quantize/model/Qwen2.5-1.5B-Instruct \
+    --port 23333 \
+    --mem-fraction-static 0.7 \
+    --disable-radix-cache \
+    --attention-backend fa3 \
+    --quantization modelopt_fp4
